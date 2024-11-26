@@ -3,15 +3,17 @@ import {createServer} from 'node:http';
 import {Server, Socket} from 'socket.io';
 import { Sala } from './clases/sala';
 import { CrearSalaArgs, UnirseASalaArgs } from './interfaces/crearSala';
+import { config } from 'dotenv';
 
 const app = express(); // express es la libreria que nos va facilitar armar servidores, esta es la manera de inicializarlo
 const server = createServer(app); // creamos un servidor
 const io = new Server(server, {cors:{origin:"*"}});//crea un servidor de socket io con el mismo servidor
 // que creamos con express
 global.io = io; // hace global a io
+config();
 
-server.listen (3000, () => {
-    console.log ("Server escuchando en el puerto 3000");
+server.listen (process.env.PORT || 3000, () => {
+    console.log ("Server escuchando en el puerto ", process.env.PORT);
 })
 
 let salas:Sala[] = [];
